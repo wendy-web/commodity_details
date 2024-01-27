@@ -50,6 +50,12 @@ export default {
     mounted() {
     },
     methods: {
+        onClickLeft() {
+            this.$router.go(-1);
+            window.close();
+            // 调用ios方法返回
+            closeWebview();
+        },
     },
 };
 </script>
