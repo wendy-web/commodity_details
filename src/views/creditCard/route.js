@@ -1,4 +1,4 @@
-import Layout from '@/layouts'
+import Layout from '@/layouts';
 
 const creditCard = {
     path: '/creditCard',
@@ -15,39 +15,10 @@ const creditCard = {
             meta: { title: '', keepAlive: false }
         },
         {
-            path: 'ZXPlan',
-            name: 'ZXPlan',
+            path: 'idOrder',
+            name: 'idOrder',
             component: () =>
-                import ('@/views/creditCard/plan/index'),
-            meta: { title: '', keepAlive: false }
-        },
-        {
-            path: 'ZXSign',
-            name: 'ZXSign',
-            component: () =>
-                import ('@/views/creditCard/signUp/index'),
-            meta: { title: '', keepAlive: false }
-        },
-        {
-            path: 'ZXInvite',
-            name: 'ZXInvite',
-            component: () =>
-                import ('@/views/creditCard/invite/index'),
-            meta: { title: '', keepAlive: false }
-        },
-        // ZXInviteDetail
-        {
-            path: 'ZXInviteDetail',
-            name: 'ZXInviteDetail',
-            component: () =>
-                import ('@/views/creditCard/invite/detail'),
-            meta: { title: '', keepAlive: false }
-        },
-        {
-            path: 'demo',
-            name: 'demo',
-            component: () =>
-                import ('@/views/creditCard/demo2/index'),
+                import ('@/views/creditCard/order/index'),
             meta: { title: '', keepAlive: false }
         },
     ]

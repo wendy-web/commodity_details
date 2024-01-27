@@ -20,12 +20,12 @@ Vue.component('lottie', lottie)
 
 Vue.use(VueAwesomeSwiper)
 Vue.use(Vant)
-// 使用animate.css
+    // 使用animate.css
 Vue.use(animated)
 
 Vue.config.productionTip = false
 Vue.prototype.$store = store;
 new Vue({
-  router,  // router 挂载到根实例对象上
-  render: h => h(App)
+    router, // router 挂载到根实例对象上
+    render: h => h(App)
 }).$mount('#app')

@@ -1,271 +1,252 @@
 <template>
-    <div class="content">
-        <img
-            class="bg_page"
-            src="@/static/creditCard/bg_page.png"
-            mode="aspectFit"
-        />
-        <!-- 主体内容 -->
-        <!--滑动区域 ref='mescroll'不能删, 目的是路由切换时可通过ref调用mescroll-vue组件的beforeRouteEnter方法-->
-        <van-nav-bar
-            :title="title"
-            left-text=""
-            right-text=""
-            :left-arrow="true"
-            :fixed="true"
-            :safe-area-inset-top="true"
-            :placeholder="true"
-            @click-left="onClickLeft"
-        />
-        <!-- <mescroll-vue
-            ref="mescroll"
-            :up="mescrollUp"
-            :down="mescrollDown"
-            @init="mescrollInit"
-            class="mescroll-body"
-        > -->
-        <div  class="mescroll-body safe-area">
-            <!-- 专属信用卡 -->
-            <div
-                class="credit-card-box"
-                :style="{ paddingTop: navHeight + 'px' }"
-            >
-                <img
-                    class="img_card_join"
-                    src="@/static/creditCard/img_card_join.png"
-                    mode="aspectFit"
-                />
-                <div class="btn-box" v-if="btnType != 3" @click="viewSignUp">
-                    <img
-                        class="bg_btn_join"
-                        src="@/static/creditCard/bg_btn_join.png"
-                        mode="aspectFit"
-                    />
-                    <!-- 立即加入 -->
-                    <div v-if="btnType == 0">
-                        <div class="btn-name">立即加入</div>
-                        <div class="btn-tips" v-if="userInfo">
-                            已有{{ userInfo.join_num }}人加入
-                        </div>
-                        <!-- 点击加入手势 -->
-                        <img
-                            class="icon_finger"
-                            src="@/static/creditCard/icon_finger.png"
-                            mode="aspectFit"
-                        />
+<div class="content">
+    <!--滑动区域 ref='mescroll'不能删, 目的是路由切换时可通过ref调用mescroll-vue组件的beforeRouteEnter方法-->
+    <van-nav-bar
+        :title="nav_title"
+        :left-arrow="true"
+        :fixed="true"
+        :safe-area-inset-top="true"
+        :placeholder="true"
+        @click-left="onClickLeft"
+    >
+        <template #right>
+            <van-icon name="cross" size="18" @click="onClickLeft"/>
+        </template>
+    </van-nav-bar>
+    <div  class="mescroll-body safe-area">
+        <div class="swiper_box">
+            <van-swipe
+                :autoplay="3000"
+                lazy-render
+                :show-indicators="false"
+                @change="changeHandle">
+                <van-swipe-item v-for="image in images" :key="image">
+                    <img :src="image" class="item_img" />
+                </van-swipe-item>
+            </van-swipe>
+            <div class="swiper_pagination">{{ imgIndex + 1 }}/{{ images.length }}</div>
+        </div>
+        <div class="aui-content aui-module-bg">
+            <div class="pro_toptit">
+                <div class="pro_price flex justify-between" style="margin-bottom:0">
+                    <div class="aui-font-size-20 aui-padded-r-5 text-theme text-price">
+                        <span class="xq_danjia"><span id="price">59.90</span></span>
+                        <sapn class="lab-product-voucher-price">
+                            <span class="cu-tag bg-theme radius-30">
+                                券后
+                                <span class="text-price aui-padded-l-5 text-white">56.2
+                                </span>
+                            </span>
+                        </sapn>
+                        <span id="price_old">99</span>
                     </div>
-                    <div v-if="btnType == 1">
-                        <div class="btn-name">查看</div>
-                        <div class="btn-tips" v-if="userInfo">
-                            已有{{ userInfo.join_num }}人加入
-                        </div>
-                    </div>
-                    <div v-if="btnType == 2">
-                        <div class="btn-name">去赚钱</div>
-                        <!-- 已加入 -->
-                        <img
-                            class="icon_joined"
-                            src="@/static/creditCard/icon_joined.png"
-                            mode="aspectFit"
-                        />
+                    <div class="color-999 aui-font-size-12">
+                        <div class="xq_yishou">月销量：<span id="sale">100</span></div>
                     </div>
                 </div>
-                <div v-else class="btn-box">
-                    <text class="sign-end" v-if="userInfo">报名已结束</text>
+                <div class="product_tags"></div>
+            </div>
+            <div class="pro_limit_time bg-gradient-theme">
+                <div class="pro_limit_time_title">活动仅剩1天，售完即止！</div>
+                <div class="pro-limit-time_right clearfix">
+                    <van-count-down
+                        :time="timeNum"
+                        format="mm:ss"
+                        @change="onChangeHandle"
+                    >
+                        <template #default="timeData">
+                            <span class="block">{{ timeData.hours }}时</span>
+                            <span class="block">{{ timeData.minutes }}分</span>
+                            <span class="block">{{ timeData.seconds }}秒</span>
+                            <span class="block_white">后结束</span>
+                        </template>
+                        </van-count-down>
                 </div>
             </div>
+            <div class="pro_title">
+                <div class="xq_title">
+                    <span class="vip_dd_img">
+                        <img src="//douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/file/20240116/4ea54776fb5c473e804176b3b7c1a537.png" class="item_img" />
+                    </span>
+                    <span id="title">【工厂直发】高腰提臀显瘦收腹鲨鱼裤，透气休闲外穿无尴尬线！</span>
+                </div>
+            </div>
+        </div>
+        <div class="aui-content aui-module-bg">
+            <div class="aui-font-size-12">
+                <div class="pro_advtipname">
+                    7天无理由退货·运费险·极速退款
+                </div>
+            </div>
+        </div>
+        <div class="aui-content aui-module-bg">
+            <div class="aui-font-size-12">
+                <div class="pro_advtipname"> 服务 </div>
+                <div class="pro_advtiprigs">
+                    <span class="pro_span" id="label">24小时内从工厂发货，全国包邮！</span>
+                </div>
+            </div>
+        </div>
 
-            <!-- 未启动计划 -->
-            <div class="not-started-plan">
-                <div class="name">未启动计划</div>
-                <div @click="viewPlan(1)" data-type="1">
-                    <div class="plan-head-box">
-                        <img
-                            class="bg_title"
-                            src="@/static/creditCard/bg_title.png"
-                        />
-                        <div>小店有惠</div>
-                    </div>
-                    <div class="plan-item">
-                        <div class="item-intro">
-                            <div class="title">「省钱卡」赚钱计划</div>
-                            <div>0投入·收益稳·长期赚</div>
+
+        <div class="aui-content aui-module-bg" id="index-rereviews-hide">
+            <div class="mark_star">
+                <span class="aui-font-size-16" style="font-weight: bold;">宝贝评分</span>
+                <div class="show_number">
+                        <div class="show_number_wrap">
+                            <div class="atar_Show">
+                                <p tip="4.7"></p>
+                            </div>
+                            <span>4.7</span>
                         </div>
-                        <div class="btn-detail">立即了解</div>
-                        <!-- 右下角水印 -->
-                        <div class="water-mark">省钱卡</div>
+                </div>
+            </div>
+            <div class="floor_title">
+                <div class="floor_h3">
+                    <span class="aui-font-size-16">宝贝评价</span>
+                    <span class="aui-font-size-14 color-999 text-normal">(<span
+                        class="lab-rereviews-number aui-font-size-14 color-999">94</span>条)</span>
+                </div>
+                <div class="more" onclick="toPageComment()">
+                    <span class="product_rate">
+                        商品好评率 98.0%
+                        <van-icon name="arrow" color="#999" size="12" />
+                    </span>
+                </div>
+            </div>
+            <!--评价标签-->
+            <div class="product_tag">
+                <div class="product_tag_item">性价比高4.5W</div>
+                <div class="product_tag_item">回头客3.8W</div>
+                <div class="product_tag_item">用着舒服8833</div>
+                <div class="product_tag_item">用着舒服8833</div>
+            </div>
+            <div class="aui-list aui-media-list bordernone aui-bg-transparent" id="index-rereviews">
+                <div class="aui-list-item">
+                    <div class="aui-info">
+                        <div class="aui-info-item">
+                            <div class="comment-img lab-rereviews-head">
+                                <img src="http://douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/file/20240119/4f4210349d90441588b686842c3cf838.jpg" />
+                            </div>
+                            <span class="aui-margin-l-5 color-111 lab-rereviews-name">a**0</span>
+                        </div>
+                        <div class="aui-info-item color-999 lab-rereviews-time aui-font-size-12">2024-01-19</div>
                     </div>
                 </div>
-                <div @click="viewPlan(2)" data-type="2">
-                    <div class="plan-head-box mt-24">
-                        <img
-                            class="bg_title"
-                            src="@/static/creditCard/bg_title.png"
-                        />
-                        <div>移动·联通·电信</div>
-                    </div>
-                    <div class="plan-item">
-                        <div class="item-intro">
-                            <div class="title">「话费折扣」赚钱计划</div>
-                            <div>0投入·转化高·刚需项目</div>
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-ellipsis-2 color-111 aui-font-size-12 line-height12 lab-rereviews-detail">
+                            穿上很服帖，走路也不紧绷这个厚度我感觉穿着刚刚好，而且裤子虽然是高腰收腹的 但是一点都不嘞人 真不错
                         </div>
-                        <div class="btn-detail">立即了解</div>
-                        <!-- 右下角水印 -->
-                        <div class="water-mark">话费折扣</div>
+
                     </div>
                 </div>
             </div>
         </div>
-        <!-- </mescroll-vue> -->
+        <div class="operLine">
+            <span class="line">商品详情</span>
+        </div>
+        <div class="product_detail" id="detail">
+            <p>
+                <img src="//douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/site/defaultparam1/news/20231219/1702964859831072409.jpg" />
+            </p>
+            <p>
+                <img src="//douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/site/defaultparam1/news/20231219/1702964881251024958.jpg" />
+            </p>
+        </div>
     </div>
+    <div class="cu-bar bg-white tabbar shop aui-fixed-bottom response" @click="buyHandle">
+        <div class="bg-gradient-theme submit" id="btnSubmit">立即购买</div>
+    </div>
+    <sku-list
+        :isShow="isShowSkuCom"
+        @close="closeSkuHandle"
+        @submit="submitHandle"
+    ></sku-list>
+</div>
 </template>
 
 <script>
-// 引入mescroll的vue组件
-// import MescrollVue from "mescroll.js/mescroll.vue";
-import MescrollMixin from "@/utils/MescrollMixins.js";
-import { getNavbarData } from "@/utils/xhNavbar.js";
-import { mapGetters, mapMutations, mapActions } from "vuex";
 import { closeWebview } from "@/utils/dsBridge";
-// import { closeWebview, initTokenBridge } from "@/utils/dsBridge";
-import { Dialog } from "vant";
-
+import { getNavbarData } from "@/utils/xhNavbar.js";
+import skuList from './skuList';
 export default {
-    name: "Home",
-    mixins: [MescrollMixin],
+    name: 'home',
     components: {
-        // MescrollVue, // 注册mescroll组件
+        skuList,
     },
     computed: {
-        ...mapGetters(["userInfo"]),
-        btnType() {
-            let type = 3;
-            if (this.userInfo) {
-                let { rem_num = 0, seo_url = "" } = this.userInfo;
-                // 剩余可加入数量
-                if (rem_num > 0) {
-                    type = 0;
-                }
-                // 是否已参与活动
-                if (seo_url) {
-                    type = 2;
-                }
-            }
-            return type;
-        },
     },
     data() {
         return {
-            mescrollDown: {
-                //下拉刷新的配置. (如果下拉刷新和上拉加载处理的逻辑是一样的,则mescrollDown可不用写了)
-                use: false,
-            },
-            mescroll: null,
-            mescrollUp: {
-                use: false,
-                callback: this.upCallback, // 上拉回调,此处可简写; 相当于 callback: function (page, mescroll) { getListData(page); }
-                page: {
-                    num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
-                    size: 10, // 每页数据的数量
-                },
-                noMoreSize: 5, // 如果列表已无数据,可设置列表的总数量要大于等于5条才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看
-                toTop: {
-                    src: "./static/mescroll/mescroll-totop.png", // 回到顶部按钮的图片路径,支持网络图
-                },
-                empty: {
-                    // 列表第一页无任何数据时,显示的空提示布局; 需配置warpId才生效;
-                    warpId: "dataList", // 父布局的id;
-                    icon: "./static/mescroll/mescroll-empty.png", // 图标,支持网络图
-                    tip: "暂无相关数据~", // 提示
-                    btntext: "去逛逛 >", // 按钮,默认""
-                    btnClick() {
-                        // 点击按钮的回调,默认null
-                        alert("点击了按钮,具体逻辑自行实现");
-                    },
-                },
-                lazyLoad: {
-                    use: true, // 是否开启懒加载,默认false
-                },
-            },
-            title: "小店赚钱中心",
-            dataList: [], //测试列表加载更多
-            navHeight: 0, //自定义导航栏高度
-            // btnType: 0, // 按钮类型默认 0立即加入，1查看，2已加入，3已结束
+            images: [
+                '//douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/site/defaultparam1/news/20231219/1702964859831072409.jpg',
+                '//douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/site/defaultparam1/news/20231219/1702964881251024958.jpg',
+            ],
+            imgIndex: 0,
+            nav_title: "源头工厂专享福利",
+            timeData: {},
+            timeNum: 60*60*1000*24,
+            isShowSkuCom: false
         };
     },
     created() {
-        // window["loginH5"] = (token) => {
-        //     this.initToken(token);
-        // };
-        // window.showInfoFromJava = (token) => {
-        //     this.initToken(token);
-        // };
-        /*导航栏高度*/
         getNavbarData().then((res) => {
             let { navBarHeight } = res;
             this.navHeight = navBarHeight;
         });
     },
     mounted() {
-        // initTokenBridge().then((token) => {
-        //     this.initToken(token);
-        // });
-        // if (window.launcher) {
-        //     window.launcher.getAppToken();
-        // }
+        this.initRouteParams();
     },
     methods: {
-        ...mapMutations({
-            setToken: "login/setToken",
-        }),
-        ...mapActions({
-            getUserInfo: "login/getUserInfo",
-        }),
-        initToken(token) {
-            console.log("initToken:", token);
-            this.setToken(token);
-            // 获取用户信息
-            this.getUserInfo();
+        // 初始化路由参数
+        initRouteParams() {
+            let query = this.$route.query;
+            console.log("query:", query);
         },
-        // mescroll组件初始化的回调,可获取到mescroll对象
-        mescrollInit(mescroll) {
-            this.mescroll = mescroll;
+        buyHandle() {
+            this.isShowSkuCom = true;
         },
-        /*上拉加载的回调*/
-        upCallback() {},
-        // 查看计划:type-1省钱卡计划，2折扣计划
-        viewPlan(type) {
-            console.log(type);
-
-            // 跳转至计划详情页面
-            this.$router.push({
-                name: "ZXPlan",
-                query: {
-                    type,
-                },
-            });
+        closeSkuHandle() {
+            this.isShowSkuCom = false;
         },
-        // 打开报名页：仅限深圳地区的掌柜，l_city:深圳市，condition:1
-        viewSignUp() {
-            console.log("用户信息：", this.userInfo);
-            let { l_city, condition, seo_url } = this.userInfo;
-            if (l_city && l_city === "深圳市" && condition === 1) {
-                // 跳转至报名页
-                // this.$router.push({
-                //     name: "ZXSignup",
-                // });
-                const pushName = seo_url ? 'ZXInvite' : 'ZXSign';
-                this.$router.push(pushName);
-                return;
-            }
-            // 限制深圳
-            Dialog({ message: "仅限深圳地区掌柜可加入" });
+        changeHandle(index) {
+            this.imgIndex = index;
         },
         onClickLeft() {
             this.$router.go(-1);
             window.close();
             // 调用ios方法返回
             closeWebview();
+        },
+        submitHandle(item) {
+            this.isShowSkuCom = false;
+            this.$router.push({
+                name: "idOrder",
+            });
+            console.log('item', item)
+        },
+        onChangeHandle(event) {
+            let {
+                hours,
+                minutes,
+                seconds,
+                milliseconds,
+                days
+            } = event;
+            hours = hours < 10 ? '0' + hours : hours
+            minutes = minutes < 10 ? '0' + minutes : minutes
+            seconds = seconds < 10 ? '0' + seconds : seconds
+            milliseconds = Math.floor(milliseconds/100);
+            // milliseconds = milliseconds < 10 ? '0' + milliseconds : milliseconds;
+            this.timeData = {
+                hours,
+                minutes,
+                seconds,
+                milliseconds,
+                days
+            }
         },
     },
 };
@@ -296,6 +277,27 @@ export default {
         color: #333333;
     }
 }
+.swiper_box {
+    width: 100%;
+    position: relative;
+    .item_img {
+        width: 100%;
+    }
+    .swiper_pagination {
+        position: absolute;
+        text-align: center;
+        transition: .3s opacity;
+        right: 10px;
+        bottom: 10px;
+        padding: 0 10px;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 30px;
+        font-size: 12px;
+        color: #fff;
+        height: 24px;
+        line-height: 24px;
+    }
+}
 
 .content {
     box-sizing: border-box;
@@ -310,207 +312,436 @@ export default {
     height: 100vh;
     overflow: hidden;
 }
-
-.bg_page {
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    right: 0;
+.aui-content {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+    word-break: break-all;
+}
+.aui-module-bg {
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 10px 10px 0 10px !important;
+    padding: 15px !important;
+}
+.pro_toptit {
+    line-height: 32px;
+}
+.pro_price {
+    font-size: 20px;
+    line-height: 32px;
     width: 100%;
-    height: 533px;
+    margin-bottom: 10px;
 }
 
+.text-theme {
+    color: #f54319!important;
+}
+.text-price::before {
+    content: "¥";
+    font-size: 80%;
+    margin-right: 2px;
+}
+.pro_toptit .xq_danjia {
+    float: none;
+    width: auto;
+    text-align: left;
+    padding: 0;
+}
+.lab-product-voucher-price{
+    margin: 0 5px;
+}
+.xq_danjia {
+    float: right;
+    width: 50%;
+    text-align: center;
+    padding: 20px 0;
+}
+.cu-tag {
+    font-size: 12px;
+    vertical-align: middle;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0 8px;
+    height: 24px;
+    font-family: Helvetica Neue,Helvetica,sans-serif;
+    white-space: nowrap;
+}
+
+.radius-30 {
+    border-radius: 30px !important;
+}
+.bg-theme {
+    background-color: #ff6d20!important;
+    color: #fff!important;
+}
+.aui-padded-l-5 {
+    padding-left: 5px!important;
+}
+.text-white {
+    color: #fff!important;
+}
+#price_old {
+    font-size: 16px;
+    text-decoration: line-through;
+    color: #999;
+}
+.pro_limit_time {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius:6px;
+    padding: 6px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+.pro_limit_time_title {
+    font-size: 12px;
+    color: #FFF;
+}
+.bg-gradient-theme {
+    background: -webkit-linear-gradient(left,#fbb90b,#ff6d20)!important;
+    background: -o-linear-gradient(right,#fbb90b,#ff6d20)!important;
+    background: -moz-linear-gradient(right,#fbb90b,#ff6d20)!important;
+    background: linear-gradient(to right,#fbb90b,#ff6d20)!important;
+    color: #fff!important;
+}
+.pro-limit-time_right {
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+.block {
+    display: inline-block;
+    font-size: 0.8rem;
+    width: 33px;
+    border-radius: 3px;
+    background: #FFF;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    margin-right: 2px;
+    font-weight: bold;
+    color: #fd4d09;
+    font-size: 14px;
+}
+.block_white{
+    color: #fff;
+    margin-left: 3px;
+}
+.pro_title {
+    font-size: 16px;
+    color: #111;
+    line-height: 24px;
+    font-weight: 600;
+    padding-top: 5px;
+}
+.vip_dd_img {
+    display: inline-block;
+    width: 64px;
+    height: 24px;
+    vertical-align: bottom;
+    background: antiquewhite;
+    border-radius: 5px;
+    overflow: hidden;
+    img {
+        width: 100%;
+    }
+}
+.pro_toptit .xq_title {
+    border-bottom: none;
+    text-align: left;
+    font-weight: 600;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    height: auto;
+    line-height: 24px;
+    margin: 0;
+    color: #111111;
+}
+.pro_advtipname {
+    font-size: 14px;
+    color: #111111;
+    float: left;
+    line-height: 28px;
+    clear: both;
+    font-weight: 600;
+}
+.pro_advtiprigs {
+    margin-left: 20px;
+    line-height: 28px;
+}
+.pro_advtiprigs .pro_span {
+    font-size: 12px;
+    padding-left: 10px;
+    float: left;
+    color: #111111;
+}
+.mark_star {
+    position: relative;
+    height: 44px;
+    line-height: 44px;
+    border-bottom: 1px solid #ededed;
+    display: flex;
+    align-items: center;
+}
+/*星星样式*/
+
+.show_number {
+    font-size: 16px;
+}
+
+.show_number .show_number_wrap {
+    padding: 0 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+
+.atar_Show {
+    background: url(https://douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/dev/img/stark2.png);
+    width: 160px;
+    height: 21px;
+    position: relative;
+    margin-right: 10px
+}
+
+.atar_Show p {
+    background: url(https://douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/dev/img/stars2.png);
+    left: 0;
+    height: 21px;
+    width: 134px;
+    padding: 0;
+    margin: 0;
+}
+
+.show_number .show_number_wrap span {
+    display: inline-block;
+    color: #eb3838;
+    font-weight: bold;
+}
+/*商品好评率*/
+.floor_title {
+    position: relative;
+    clear: both;
+    height: 44px;
+    line-height: 44px;
+}
+.floor_title .more span {
+    color: #999;
+    vertical-align: middle;
+}
+
+.floor_title .more .product_rate {
+    color: #fd4d09;
+    font-size: 16px;
+    font-weight: bold;
+}
+.floor_title .floor_h3 {
+    font-size: 16px;
+    float: left;
+    font-weight: bold;
+    color: #111111;
+}
+.floor_title .more {
+    float: right;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: right;
+    color: #999;
+}
+.floor_title .more span {
+    color: #999;
+    vertical-align: middle;
+}
+.icon-arrow-right:before {
+    content: "\e7bd";
+}
+.product_tag {
+    display: flex;
+    align-items: center;
+    clear: both;
+    flex-wrap: wrap;
+}
+
+.product_tag .product_tag_item {
+    background: #ffeded;
+    color: #4f4443;
+    padding: 6px 10px;
+    margin: 0 10px 10px 0;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.product_tag {
+    display: flex;
+    align-items: center;
+    clear: both;
+    flex-wrap: wrap;
+}
+.product_tag .product_tag_item {
+    background: #ffeded;
+    color: #4f4443;
+    padding: 6px 10px;
+    margin: 0 10px 10px 0;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.aui-module-bg .aui-list .aui-list-item {
+    padding-left: 0;
+    border-bottom: none;
+}
+
+.aui-media-list .aui-list-item {
+    display: block;
+}
+.aui-module-bg .aui-list .aui-info {
+    width: 100%;
+}
+
+.aui-info {
+    position: relative;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #757575;
+    background-color: transparent;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.comment-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.comment-img img {
+    width: 100%;
+}
+.aui-info {
+    position: relative;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #757575;
+    background-color: transparent;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.aui-info-item {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
 .mescroll-body {
     flex: 1;
     flex-shrink: 0;
     overflow: scroll;
-    .credit-card-box {
-        box-sizing: border-box;
-        position: relative;
-        z-index: 1;
-        margin: 20px 16px 0 16px;
-        min-height: 242px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-        padding-bottom: 28px;
-
-        .img_card_join {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            min-height: 242px;
-            z-index: -1;
-        }
-
-        .btn-box {
-            position: relative;
-            z-index: 1;
-            width: 205px;
-            height: 46px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-
-            .bg_btn_join {
-                width: 205px;
-                height: 46px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: -1;
-            }
-
-            .btn-name {
-                font-size: 16px;
-                font-family: PingFang SC, PingFang SC-Semibold;
-                font-weight: 600;
-                text-align: center;
-                color: #ffffff;
-            }
-
-            .btn-tips {
-                opacity: 0.6;
-                font-size: 12px;
-                font-family: PingFang SC, PingFang SC-Regular;
-                font-weight: 400;
-                text-align: center;
-                color: #ffffff;
-            }
-
-            .sign-end {
-                font-size: 16px;
-                font-family: PingFang SC, PingFang SC-Semibold;
-                font-weight: 600;
-                text-align: center;
-                color: #333333;
-            }
-
-            .icon_finger {
-                width: 46px;
-                height: 52px;
-                position: absolute;
-                bottom: -30px;
-                right: -25px;
-            }
-
-            .icon_joined {
-                width: 59px;
-                height: 25px;
-                position: absolute;
-                top: -10px;
-                right: 8px;
-            }
-        }
+    font-size: 16px;
+}
+.operLine {
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    margin: 10px auto;
+}
+.operLine .line {
+    position: relative;
+    display: inline-block;
+    padding: 0px 30px;
+    color: #666;
+}
+.operLine .line::before {
+    content: '';
+    width: 40px;
+    position: absolute;
+    top: 20px;
+    left: -20px;
+    border-bottom: 1px solid #CCCCCC;
+}
+.operLine .line::after {
+    content: '';
+    width: 40px;
+    position: absolute;
+    top: 20px;
+    right: -20px;
+    border-bottom: 1px solid #CCCCCC;
+}
+#detail {
+    min-height: 300px;
+    margin: 1px;
+    padding: 1px;
+    margin-top: 30px;
+}
+.product_detail {
+    background-color: #fff;
+    margin-top: 0 !important;
+    img {
+        width: 100%;
     }
+}
+.cu-bar.tabbar {
+    padding: 0;
+}
+.response {
+    width: 100%;
+}
+.aui-fixed-bottom {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+.bg-white {
+    background-color: #fff!important;
+    color: #666;
+}
+.cu-bar.tabbar .submit:last-child {
+    flex: 2.6;
+}
+.cu-bar.tabbar .submit {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    flex: 2;
+    align-self: stretch;
+    font-size: 16px;
+}
 
-    .not-started-plan {
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        margin: 36px 16px 0 16px;
-
-        .name {
-            font-size: 16px;
-            font-family: PingFang SC, PingFang SC-Semibold;
-            font-weight: 600;
-            text-align: left;
-            color: #333333;
-            margin-bottom: 16px;
-        }
-
-        .plan-head-box {
-            box-sizing: border-box;
-            min-height: 44px;
-            position: relative;
-            z-index: 1;
-            font-size: 14px;
-            font-family: PingFang SC, PingFang SC-Semibold;
-            font-weight: 600;
-            text-align: left;
-            color: #333333;
-            letter-spacing: 0.04px;
-            padding-left: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-
-            .bg_title {
-                width: 100%;
-                height: 44px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: -1;
-            }
-        }
-
-        .mt-24 {
-            margin-top: 12px;
-        }
-
-        .plan-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 12px;
-            box-sizing: border-box;
-            height: 100px;
-            background: #ffffff;
-            border-radius: 8px;
-            position: relative;
-            z-index: 1;
-
-            .item-intro {
-                font-size: 14px;
-                font-family: PingFang SC, PingFang SC-Regular;
-                font-weight: 400;
-                text-align: center;
-                color: #999999;
-                letter-spacing: 0.04px;
-
-                .title {
-                    font-size: 20px;
-                    font-family: Alimama ShuHeiTi, Alimama ShuHeiTi-Bold;
-                    font-weight: 700;
-                    text-align: center;
-                    color: #333333;
-                    margin-bottom: 12px;
-                }
-            }
-
-            .btn-detail {
-                box-sizing: border-box;
-                width: 76px;
-                height: 30px;
-                border: 1px solid #e1e1e1;
-                border-radius: 17px;
-                font-size: 13px;
-                font-family: PingFang SC, PingFang SC-Semibold;
-                font-weight: 600;
-                color: #333333;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .water-mark {
-                min-width: 90px;
-                height: 39px;
-                font-size: 30px;
-                font-family: HONOR Sans CN, HONOR Sans CN-Black;
-                font-weight: 900;
-                text-align: center;
-                color: rgba(51, 51, 51, 0.03);
-                line-height: 39px;
-                position: absolute;
-                bottom: 0px;
-                right: 8px;
-                z-index: -1;
-            }
-        }
-    }
+.shop .submit {
+    margin: 10px;
+    height: 40px;
+    border-radius: 30px;
+    line-height: 40px;
 }
 </style>
