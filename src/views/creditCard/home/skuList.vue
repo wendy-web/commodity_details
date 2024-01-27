@@ -215,7 +215,7 @@
 .att-popup-header {
     display: inline-block;
     position: relative;
-    padding: 10px 6px 40px 100px;
+    padding: 10px 6px 0px 100px;
     width: 72%;
     float: left;
 }

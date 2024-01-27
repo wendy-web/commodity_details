@@ -1,6 +1,5 @@
 <template>
 <div class="content">
-    <!--滑动区域 ref='mescroll'不能删, 目的是路由切换时可通过ref调用mescroll-vue组件的beforeRouteEnter方法-->
     <van-nav-bar
         :title="nav_title"
         :left-arrow="true"
