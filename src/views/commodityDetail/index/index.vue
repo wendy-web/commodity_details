@@ -17,6 +17,7 @@
             <van-swipe
                 :autoplay="3000"
                 lazy-render
+                :loop="true"
                 :show-indicators="false"
                 @change="changeHandle">
                 <van-swipe-item v-for="image in images" :key="image">
@@ -65,7 +66,7 @@
             <div class="pro_title">
                 <div class="xq_title">
                     <span class="vip_dd_img">
-                        <img src="//douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/file/20240116/4ea54776fb5c473e804176b3b7c1a537.png" class="item_img" />
+                        <img src="http://douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/file/20240116/4ea54776fb5c473e804176b3b7c1a537.png" class="item_img" />
                     </span>
                     <span id="title">【工厂直发】高腰提臀显瘦收腹鲨鱼裤，透气休闲外穿无尴尬线！</span>
                 </div>
@@ -147,10 +148,10 @@
         </div>
         <div class="product_detail" id="detail">
             <p>
-                <img src="//douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/site/defaultparam1/news/20231219/1702964859831072409.jpg" />
+                <img src="http://douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/site/defaultparam1/news/20231219/1702964859831072409.jpg" />
             </p>
             <p>
-                <img src="//douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/site/defaultparam1/news/20231219/1702964881251024958.jpg" />
+                <img src="http://douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/site/defaultparam1/news/20231219/1702964881251024958.jpg" />
             </p>
         </div>
     </div>
@@ -175,8 +176,8 @@ export default {
     data() {
         return {
             images: [
-                '//douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/site/defaultparam1/news/20231219/1702964859831072409.jpg',
-                '//douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/site/defaultparam1/news/20231219/1702964881251024958.jpg',
+                'http://douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/file/20231219/aaac278031114fb78c98bc633745cbcf.png',
+                'http://douyin-h5-shop.oss-cn-shenzhen.aliyuncs.com/file/20231219/77ae0d5d4e82437c9fa70778dadb4b32.png',
             ],
             imgIndex: 0,
             nav_title: "源头工厂专享福利",

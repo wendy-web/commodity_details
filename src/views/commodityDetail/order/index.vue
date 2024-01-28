@@ -106,7 +106,7 @@
                     <div class="content">
                         <div class="color-111 aui-font-size-14">
                                 <i class="wxpay-icon">
-                                    <img src="//cloudtemplate.weiunity.com/websiteTemplate/wangmarket_shop_2/images/common/wxpay.png" alt="" />
+                                    <img src="http://cloudtemplate.weiunity.com/websiteTemplate/wangmarket_shop_2/images/common/wxpay.png" alt="" />
                                 </i>
                                 <span >微信支付</span>
                             </div>
@@ -121,7 +121,7 @@
                         <div class="content">
                             <div class="color-111 aui-font-size-14">
                                 <i class="wxpay-icon">
-                                    <img src="//cloudtemplate.weiunity.com/websiteTemplate/wangmarket_shop_2/images/common/zfbpay.png" alt="" />
+                                    <img src="http://cloudtemplate.weiunity.com/websiteTemplate/wangmarket_shop_2/images/common/zfbpay.png" alt="" />
                                 </i>
                                 支付宝支付
                             </div>
