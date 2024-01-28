@@ -6,33 +6,15 @@ Vue.use(VueRouter)
 // 配置项目路由
 export const asyncRoutes = [{
         path: '/',
-        // redirect: '/bill/2023'
-        redirect: '/creditCard/home'
+        redirect: '/commodityDetail/index'
     },
-    // {
-    //   path: '/index',
-    //   // component: () => import('@/layouts/index'),
-    //   component: Layout,
-    //   meta: {
-    //     keepAlive: false
-    //   },
-    //   children: [
-    //     {
-    //       path: 'index',
-    //       name: 'Index',
-    //       component: () => import('@/views/home/index'),
-    //       meta: { title: '首页', keepAlive: false }
-    //     },
-    //   ]
-    // },
     {
         path: '/404',
         name: '404',
         component: () =>
             import ('@/error-page/404'),
     },
-    { path: '*', redirect: '/creditCard/home', hidden: true }
-    // { path: '*', redirect: '/bill/2023', hidden: true }
+    { path: '*', redirect: '/commodityDetail/index', hidden: true }
 ]
 
 /** 批量导入 */
@@ -43,7 +25,6 @@ contexts.keys().forEach(key => {
 
 /** 批量导入 */
 const createRouter = () => new VueRouter({
-    // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
     routes: asyncRoutes
 })
