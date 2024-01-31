@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@antv/f2": "^3.8.11",
+    "@vant/area-data": "^1.5.1",
     "amfe-flexible": "^2.2.1",
     "animate.css": "^3.7.2",
     "axios": "^1.6.2",

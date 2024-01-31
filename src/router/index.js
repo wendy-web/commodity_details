@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 // 配置项目路由
 export const asyncRoutes = [{
         path: '/',
-        redirect: '/creditCard/home'
+        redirect: '/commodityDetail/index'
     },
     {
         path: '/404',
@@ -14,7 +14,7 @@ export const asyncRoutes = [{
         component: () =>
             import ('@/error-page/404'),
     },
-    { path: '*', redirect: '/creditCard/home', hidden: true }
+    { path: '*', redirect: '/commodityDetail/index', hidden: true }
 ]
 
 /** 批量导入 */
